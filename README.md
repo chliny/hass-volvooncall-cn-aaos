@@ -1,10 +1,10 @@
-![Version](https://img.shields.io/github/v/release/idreamshen/hass-volvooncall-cn?color=green&label=Version)
-[![GitHub all releases](https://img.shields.io/github/downloads/idreamshen/hass-volvooncall-cn/total?label=Downloads)](https://github.com/idreamshen/hass-volvooncall-cn/releases)
+![Version](https://img.shields.io/github/v/release/chliny/hass-volvooncall-cn-aaos?color=green&label=Version)
+[![GitHub all releases](https://img.shields.io/github/downloads/chliny/hass-volvooncall-cn-aaos/total?label=Downloads)](https://github.com/chliny/hass-volvooncall-cn-aaos/releases)
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg)](https://github.com/hacs/integration)
 
 
-# Volvo On Call CN
-Homeassistant volvooncall 中国区插件
+# Volvo On Call CN AAOS
+Homeassistant volvooncall 中国区安卓车机版插件
 
 # 实体一览
 `{vin}` 表示车架号
@@ -33,17 +33,17 @@ Homeassistant volvooncall 中国区插件
 | `device_tracker.{vin}_position_wgs84`       | 位置 wgs84 坐标    | 在 ha 默认地图上展示车辆时，请使用此实体                                                                                                 |
 
 # 测试车型
-- 2021 S60
+- 2024 XC60
 
 # HACS 安装集成
 HACS -> 集成 -> 右上角三个点 -> 自定义存储库
-- 存储库：https://github.com/idreamshen/hass-volvooncall-cn
+- 存储库：https://github.com/chliny/hass-volvooncall-cn-aaos
 - 类别：集成
 
-浏览并下载存储库 -> 搜索 Volvo On Call CN 并下载
+浏览并下载存储库 -> 搜索 Volvo On Call CN AAOS 并下载
 
 # Homeassistant 添加集成
-设置 -> 设备与服务 -> 添加集成 -> 搜索品牌 Volvo On Call CN -> 填入手机号和密码
+设置 -> 设备与服务 -> 添加集成 -> 搜索品牌 Volvo On Call CN AAOS -> 填入手机号和密码
 - 手机号：11 位纯数字
 - 密码：即“沃尔沃APP”上的登录密码，需要提前设置好登录密码
 

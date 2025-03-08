@@ -14,8 +14,8 @@ from homeassistant.helpers.update_coordinator import (
 
 from . import VolvoCoordinator, VolvoEntity
 from . import metaMap
+from .volvooncall_aaos import DOMAIN
 
-DOMAIN = "volvooncall_cn"
 
 async def async_setup_entry(
     hass: HomeAssistant,
@@ -31,6 +31,7 @@ async def async_setup_entry(
         entities.append(VolvoSensor(coordinator, idx, "position_wgs84"))
 
     async_add_entities(entities)
+
 
 class VolvoSensor(VolvoEntity, TrackerEntity):
     def __init__(self, coordinator, idx, metaMapKey):

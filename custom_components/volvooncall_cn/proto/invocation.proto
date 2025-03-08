@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package invocation;
+
+service InvocationService {
+  rpc WindowControl(windowControlReq) returns(stream windowControlResp) {}
+}
+
+message windowControlReqHead {
+  string vin = 1;
+}
+
+message windowControlReq {
+  windowControlReqHead head = 1;
+  int32 openType = 2;
+}
+
+message windowData {
+  string deviceid = 1;
+  string vin = 2;
+  int64 timestamp = 3;
+}
+
+message windowControlResp {
+  repeated windowData data = 1;
+}

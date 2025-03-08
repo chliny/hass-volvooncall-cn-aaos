@@ -16,9 +16,9 @@ from homeassistant.helpers.update_coordinator import (
     UpdateFailed,
 )
 
-from .volvooncall_cn import VehicleAPI, Vehicle
-
-DOMAIN = "volvooncall_cn"
+from .volvooncall_aaos import AAOSVehicleAPI as VehicleAPI
+from .volvooncall_aaos import AAOSVehicle as Vehicle
+from .volvooncall_aaos import DOMAIN
 
 PLATFORMS = {
     "sensor": "sensor",
@@ -51,6 +51,7 @@ async def async_setup_entry(hass, entry):
 
     return True
 
+
 class VolvoCoordinator(DataUpdateCoordinator):
     """My custom coordinator."""
 
@@ -60,7 +61,7 @@ class VolvoCoordinator(DataUpdateCoordinator):
             hass,
             _LOGGER,
             # Name of the data. For logging purposes.
-            name="Volvo On Call CN sensor",
+            name="Volvo On Call CN AAOS sensor",
             # Polling interval. Will only be polled if there are subscribers.
             update_interval=timedelta(seconds=30),
         )
@@ -92,6 +93,7 @@ class VolvoCoordinator(DataUpdateCoordinator):
         except Exception as err:
             raise UpdateFailed(f"Error communicating with API: {err}")
 
+
 metaMap = {
     "car_lock": {
         "name": "Lock",
@@ -99,18 +101,24 @@ metaMap = {
         "icon": "",
         "unit": "",
     },
-    "car_lock_open": {
-        "name": "Lock",
-        "device_class": "lock",
+    # "car_lock_open": {
+    #    "name": "Lock",
+    #    "device_class": "lock",
+    #    "icon": "",
+    #    "unit": "",
+    # },
+    "window_lock": {
+        "name": "Winodw Lock",
+        "device_class": None,
         "icon": "",
         "unit": "",
     },
-    "remote_door_unlock": {
-        "name": "Remote Door Unlock",
-        "device_class": "lock",
-        "icon": "",
-        "unit": "",
-    },
+    # "remote_door_unlock": {
+    #    "name": "Remote Door Unlock",
+    #    "device_class": "lock",
+    #    "icon": "",
+    #    "unit": "",
+    # },
     "distance_to_empty": {
         "name": "Distance to empty",
         "device_class": None,
@@ -201,12 +209,13 @@ metaMap = {
         "icon": "mdi:gas-station",
         "unit": "L",
     },
-    "fuel_amount_level": {
-        "name": "Fuel amount level",
-        "device_class": None,
-        "icon": "mdi:gas-station",
-        "unit": "%",
-    },
+    # TODO
+    # "fuel_amount_level": {
+    #    "name": "Fuel amount level",
+    #    "device_class": None,
+    #    "icon": "mdi:gas-station",
+    #    "unit": "%",
+    # },
     "position": {
         "name": "Position",
         "device_class": None,
@@ -220,6 +229,7 @@ metaMap = {
         "unit": "",
     }
 }
+
 
 class VolvoEntity(CoordinatorEntity):
     def __init__(self, coordinator, idx, metaMapKey):

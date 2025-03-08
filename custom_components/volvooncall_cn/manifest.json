@@ -1,13 +1,20 @@
 {
-  "domain": "volvooncall_cn",
-  "name": "Volvo On Call CN",
-  "codeowners": ["@idreamshen"],
-  "config_flow": true,
-  "dependencies": [],
-  "issue_tracker": "https://github.com/idreamshen/hass-volvooncall-cn/issues",
-  "documentation": "https://github.com/idreamshen/hass-volvooncall-cn",
-  "iot_class": "cloud_polling",
-  "requirements": [],
-  "version": "0.1.4",
-  "loggers": ["volvooncall_cn"]
+    "domain": "volvooncall_cn",
+    "name": "Volvo On Call CN For AAOS",
+    "codeowners": [
+        "@chliny"
+    ],
+    "config_flow": true,
+    "dependencies": [],
+    "issue_tracker": "https://github.com/chliny/hass-volvooncall-cn-aaos/issues",
+    "documentation": "https://github.com/chliny/hass-volvooncall-cn-aaos",
+    "iot_class": "cloud_polling",
+    "requirements": [
+        "grpcio",
+        "grpcio-tools"
+    ],
+    "version": "2.0.1",
+    "loggers": [
+        "volvooncall_cn_aaos"
+    ]
 }

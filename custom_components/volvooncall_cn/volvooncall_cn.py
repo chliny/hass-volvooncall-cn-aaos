@@ -1,19 +1,15 @@
 import logging
 
-import base64
 from datetime import timedelta
-from json import dumps as to_json
-from collections import OrderedDict
-from sys import argv
 from urllib.parse import urljoin
 import asyncio
 import argparse
 import time
 import json
-from datetime import date, datetime
+from datetime import datetime
 import math
 
-from aiohttp import ClientSession, ClientTimeout, BasicAuth
+from aiohttp import ClientSession, ClientTimeout, ClientSession
 from aiohttp.hdrs import METH_GET, METH_POST
 
 import hashlib
@@ -55,9 +51,10 @@ class VolvoAPIError(Exception):
     def __init__(self, message):
         self.message = message
 
+
 class VehicleAPI:
     def __init__(self, session, username, password):
-        self._session = session
+        self._session: ClientSession = session
         self._username = username
         self._password = password
 
@@ -163,7 +160,7 @@ class VehicleAPI:
     async def login(self):
         now = int(time.time())
 
-        if (self._access_token_expire_at - now) >= 60*10:
+        if (self._access_token_expire_at - now) >= 60 * 10:
             return
 
         url = urljoin(DIGITALVOLVO_URL, "/app/iam/api/v1/auth")
@@ -172,6 +169,10 @@ class VehicleAPI:
             "password": self._password,
             "phoneNumber": "0086" + self._username
         })
+
+        logging.debug(result)
+        if not result:
+            return
 
         if not result["success"]:
             return
@@ -192,7 +193,7 @@ class VehicleAPI:
     async def update_token(self):
         now = int(time.time())
 
-        if (self._access_token_expire_at - now) >= 60*10:
+        if (self._access_token_expire_at - now) >= 60 * 2:
             return
 
         url = urljoin(DIGITALVOLVO_URL, "/app/iam/api/v1/refreshToken?refreshToken=" + self._refresh_token)
@@ -266,7 +267,7 @@ class Vehicle:
         self.model_name = ""
         self.car_locked = False
         self.car_locked_updated_at = 0
-        self.distance_to_empty = 0 # 续航公里
+        self.distance_to_empty = 0  # 续航公里
         self.distance_to_empty_updated_at = 0
         self.tail_gate_open = False
         self.rear_right_door_open = False
@@ -385,13 +386,17 @@ class Vehicle:
     async def lock(self):
         await self._api.lock_vehicle(self.vin)
 
+
 def json_loads(s):
     return json.loads(s)
 
+
 x_pi = 3.14159265358979324 * 3000.0 / 180.0
-pi = 3.1415926535897932384626 # π
-a = 6378245.0 # 长半轴
-ee = 0.00669342162296594323 # 扁率
+pi = 3.1415926535897932384626  # π
+a = 6378245.0  # 长半轴
+ee = 0.00669342162296594323  # 扁率
+
+
 def gcj02towgs84(lng, lat):
     """
     GCJ02(火星坐标系)转GPS84
@@ -411,37 +416,43 @@ def gcj02towgs84(lng, lat):
     mglng = lng + dlng
     return [lng * 2 - mglng, lat * 2 - mglat]
 
+
 def transformlat(lng, lat):
     ret = -100.0 + 2.0 * lng + 3.0 * lat + 0.2 * lat * lat + 0.1 * lng * lat + 0.2 * math.sqrt(math.fabs(lng))
-    ret += (20.0 * math.sin(6.0 * lng * pi) + 20.0 *math.sin(2.0 * lng * pi)) * 2.0 / 3.0
+    ret += (20.0 * math.sin(6.0 * lng * pi) + 20.0 * math.sin(2.0 * lng * pi)) * 2.0 / 3.0
     ret += (20.0 * math.sin(lat * pi) + 40.0 *
-    math.sin(lat / 3.0 * pi)) * 2.0 / 3.0
+            math.sin(lat / 3.0 * pi)) * 2.0 / 3.0
     ret += (160.0 * math.sin(lat / 12.0 * pi) + 320 *
-    math.sin(lat * pi / 30.0)) * 2.0 / 3.0
+            math.sin(lat * pi / 30.0)) * 2.0 / 3.0
     return ret
+
 
 def transformlng(lng, lat):
     ret = 300.0 + lng + 2.0 * lat + 0.1 * lng * lng + 0.1 * lng * lat + 0.1 * math.sqrt(math.fabs(lng))
-    ret += (20.0 * math.sin(6.0 * lng * pi) + 20.0 *math.sin(2.0 * lng * pi)) * 2.0 / 3.0
-    ret += (20.0 * math.sin(lng * pi) + 40.0 *math.sin(lng / 3.0 * pi)) * 2.0 / 3.0
-    ret += (150.0 * math.sin(lng / 12.0 * pi) + 300.0 *math.sin(lng / 30.0 * pi)) * 2.0 / 3.0
+    ret += (20.0 * math.sin(6.0 * lng * pi) + 20.0 * math.sin(2.0 * lng * pi)) * 2.0 / 3.0
+    ret += (20.0 * math.sin(lng * pi) + 40.0 * math.sin(lng / 3.0 * pi)) * 2.0 / 3.0
+    ret += (150.0 * math.sin(lng / 12.0 * pi) + 300.0 * math.sin(lng / 30.0 * pi)) * 2.0 / 3.0
     return ret
 
 
 def hmac_sha256(key, msg):
     return hmac.new(key.encode(), msg.encode(), hashlib.sha256).hexdigest()
 
+
 def hex_encode_sha256_hash(data):
     return hashlib.sha256(data.encode()).hexdigest()
 
+
 def urlencode(string):
     return urllib.parse.quote(string, safe='')
+
 
 def find_header(headers, name):
     for key, value in headers.items():
         if key.lower() == name.lower():
             return value
     return None
+
 
 def canonical_request(req, signed_headers):
     payload_hash = find_header(req['headers'], 'x-sdk-content-sha256')
@@ -461,17 +472,22 @@ def canonical_request(req, signed_headers):
 
     return f"{req['method']}\n{canonical_uri}\n{canonical_query_string}\n{canonical_headers}\n{';'.join(signed_headers)}\n{payload_hash}"
 
+
 def string_to_sign(canonical_req, date_stamp, service='SDK-HMAC-SHA256'):
     return f"{service}\n{date_stamp}\n{hex_encode_sha256_hash(canonical_req)}"
+
 
 def create_signature(string_to_sign, secret_key):
     return hmac_sha256(secret_key, string_to_sign)
 
+
 def format_auth_header(signature, access_key, signed_headers):
     return f"SDK-HMAC-SHA256 Access={access_key}, SignedHeaders={';'.join(signed_headers)}, Signature={signature}"
 
+
 def generate_date_stamp():
     return datetime.utcnow().strftime("%Y%m%dT%H%M%SZ")
+
 
 def sign_request(url, method, body):
     parsed_url = urlparse(url)
@@ -501,16 +517,17 @@ def sign_request(url, method, body):
     signature = create_signature(string_to_sign_val, secret)
 
     return {
-        'x-sdk-date':  request['headers']['x-sdk-date'],
+        'x-sdk-date': request['headers']['x-sdk-date'],
         'v587sign': format_auth_header(signature, key, sorted([k.lower() for k in request['headers']]))
     }
+
 
 async def main():
     logging.basicConfig(level=logging.DEBUG)
     parser = argparse.ArgumentParser(
-                    prog='Volvo On Call CN',
-                    description='',
-                    epilog='')
+        prog='Volvo On Call CN',
+        description='',
+        epilog='')
 
     parser.add_argument('--username')
     parser.add_argument('--password')

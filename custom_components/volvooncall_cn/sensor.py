@@ -9,10 +9,10 @@ from homeassistant.helpers.dispatcher import async_dispatcher_connect
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
 from . import VolvoCoordinator, VolvoEntity, metaMap
-
-DOMAIN = "volvooncall_cn"
+from .volvooncall_aaos import DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
+
 
 async def async_setup_entry(
     hass: HomeAssistant,
@@ -30,6 +30,7 @@ async def async_setup_entry(
         entities.append(VolvoSensor(coordinator, idx, "fuel_amount_level"))
 
     async_add_entities(entities)
+
 
 class VolvoSensor(VolvoEntity, SensorEntity):
     """An entity using CoordinatorEntity.

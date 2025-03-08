@@ -16,8 +16,8 @@ from homeassistant.helpers.update_coordinator import (
 
 from . import VolvoCoordinator, VolvoEntity
 from . import metaMap
+from .volvooncall_aaos import DOMAIN
 
-DOMAIN = "volvooncall_cn"
 
 async def async_setup_entry(
     hass: HomeAssistant,
@@ -45,6 +45,7 @@ async def async_setup_entry(
         entities.append(VolvoSensor(coordinator, idx, "sunroof_open"))
 
     async_add_entities(entities)
+
 
 class VolvoSensor(VolvoEntity, BinarySensorEntity):
     """An entity using CoordinatorEntity.
