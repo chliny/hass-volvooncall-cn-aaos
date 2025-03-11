@@ -180,13 +180,13 @@ metaMap = {
         "unit": "km",
     },
     "front_left_window_open": {
-        "name": "Front left window open",
+        "name": "Front left window",
         "device_class": "window",
         "icon": "",
         "unit": "",
     },
     "front_right_window_open": {
-        "name": "Front right window open",
+        "name": "Front right window",
         "device_class": "window",
         "icon": "",
         "unit": "",
