@@ -16,16 +16,16 @@ message otherLocationUnknowData {
     int32 unknow4 = 2;
 }
 message otherLocations {
-  double latitude = 1;
-  double longitude = 2;
+  double longitude = 1;
+  double latitude = 2;
   otherLocationUnknowData unknow2 = 3;
 
 }
 
 message StreamLastKnownLocationsResp {
   string vin = 1;
-  double latitude = 2;
-  double longitude = 3;
+  double longitude = 2;
+  double latitude = 3;
   int32 unknow1 = 4;
   otherLocations other = 5;
 }

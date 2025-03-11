@@ -49,34 +49,28 @@ class AAOSVehicleAPI(VehicleAPI):
         self.channel = None
         self.channel_token: str = ""
         self.lbs_channel = None
+        self.lbs_channel_token: str = ""
 
     async def gen_channel(self, token, target):
         callCreds = grpc.access_token_call_credentials(token)
         sslCreds = grpc.ssl_channel_credentials()
         creds = grpc.composite_channel_credentials(sslCreds, callCreds)
-        # channel_options = (("grpc.primary_user_agent", USER_AGENT), ('grpc.accept_encoding', 'gzip'),
-        #                   (experimental.ChannelOptions.SingleThreadedUnaryStream, 1),
-        #                   ('grpc.max_reconnect_backoff_ms', 1000), ('grpc.keepalive_time_ms', 30000),
-        #                   ('grpc.max_concurrent_streams', 100), ('grpc.http2.max_frame_size', 1048576),
-        #                   ('grpc.http2.initial_connection_window_size', 1048576),)
         channel_options: tuple = (("grpc.primary_user_agent", USER_AGENT), ('grpc.accept_encoding', 'gzip'),)
         channel = grpc.secure_channel(target, creds, options=channel_options)
         _LOGGER.debug(channel.__dict__)
         return channel
 
     async def get_channel(self):
-        await self.update_token()
         if self.channel and self.channel_token == self._vocapi_access_token.strip():
             return
         self.channel_token = self._vocapi_access_token.strip()
         self.channel = await self.gen_channel(self.channel_token, AAOS_DIGITALVOLVO_HOST)
 
     async def get_lbs_channel(self):
-        await self.update_token()
-        if self.lbs_channel and self.channel_token == self._vocapi_access_token.strip():
+        if self.lbs_channel and self.lbs_channel_token == self._vocapi_access_token.strip():
             return
-        self.channel_token = self._vocapi_access_token.strip()
-        self.lbs_channel = await self.gen_channel(self.channel_token, AAOS_LBS_VOLVO_HOST)
+        self.lbs_channel_token = self._vocapi_access_token.strip()
+        self.lbs_channel = await self.gen_channel(self.lbs_channel_token, AAOS_LBS_VOLVO_HOST)
 
     async def get_fuel_status(self, vin) -> GetFuelResp:
         stub = FuelServiceStub(self.channel)
