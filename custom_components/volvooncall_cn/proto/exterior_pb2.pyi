@@ -19,7 +19,7 @@ class ExteriorDataHeader(_message.Message):
     def __init__(self, updateTime: _Optional[int] = ..., unknown1: _Optional[int] = ...) -> None: ...
 
 class ExteriorData(_message.Message):
-    __slots__ = ("header", "lock", "frontLeftDoor", "frontRightDoor", "rearLeftDoor", "rearRightDoor", "frontLeftWindow", "frontRightWindow", "rearLeftWindow", "rearRightWindow", "unknown2", "tailGate", "unknown3", "sunRoof", "unknown4")
+    __slots__ = ("header", "lock", "frontLeftDoor", "frontRightDoor", "rearLeftDoor", "rearRightDoor", "frontLeftWindow", "frontRightWindow", "rearLeftWindow", "rearRightWindow", "hood", "tailGate", "unknown3", "sunRoof", "unknown4")
     HEADER_FIELD_NUMBER: _ClassVar[int]
     LOCK_FIELD_NUMBER: _ClassVar[int]
     FRONTLEFTDOOR_FIELD_NUMBER: _ClassVar[int]
@@ -30,7 +30,7 @@ class ExteriorData(_message.Message):
     FRONTRIGHTWINDOW_FIELD_NUMBER: _ClassVar[int]
     REARLEFTWINDOW_FIELD_NUMBER: _ClassVar[int]
     REARRIGHTWINDOW_FIELD_NUMBER: _ClassVar[int]
-    UNKNOWN2_FIELD_NUMBER: _ClassVar[int]
+    HOOD_FIELD_NUMBER: _ClassVar[int]
     TAILGATE_FIELD_NUMBER: _ClassVar[int]
     UNKNOWN3_FIELD_NUMBER: _ClassVar[int]
     SUNROOF_FIELD_NUMBER: _ClassVar[int]
@@ -45,12 +45,12 @@ class ExteriorData(_message.Message):
     frontRightWindow: int
     rearLeftWindow: int
     rearRightWindow: int
-    unknown2: int
+    hood: int
     tailGate: int
     unknown3: int
     sunRoof: int
     unknown4: int
-    def __init__(self, header: _Optional[_Union[ExteriorDataHeader, _Mapping]] = ..., lock: _Optional[int] = ..., frontLeftDoor: _Optional[int] = ..., frontRightDoor: _Optional[int] = ..., rearLeftDoor: _Optional[int] = ..., rearRightDoor: _Optional[int] = ..., frontLeftWindow: _Optional[int] = ..., frontRightWindow: _Optional[int] = ..., rearLeftWindow: _Optional[int] = ..., rearRightWindow: _Optional[int] = ..., unknown2: _Optional[int] = ..., tailGate: _Optional[int] = ..., unknown3: _Optional[int] = ..., sunRoof: _Optional[int] = ..., unknown4: _Optional[int] = ...) -> None: ...
+    def __init__(self, header: _Optional[_Union[ExteriorDataHeader, _Mapping]] = ..., lock: _Optional[int] = ..., frontLeftDoor: _Optional[int] = ..., frontRightDoor: _Optional[int] = ..., rearLeftDoor: _Optional[int] = ..., rearRightDoor: _Optional[int] = ..., frontLeftWindow: _Optional[int] = ..., frontRightWindow: _Optional[int] = ..., rearLeftWindow: _Optional[int] = ..., rearRightWindow: _Optional[int] = ..., hood: _Optional[int] = ..., tailGate: _Optional[int] = ..., unknown3: _Optional[int] = ..., sunRoof: _Optional[int] = ..., unknown4: _Optional[int] = ...) -> None: ...
 
 class GetExteriorResp(_message.Message):
     __slots__ = ("vin", "data")

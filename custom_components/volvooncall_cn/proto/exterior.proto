@@ -26,7 +26,7 @@ message ExteriorData {
   int32 frontRightWindow = 8; // 右前 1开窗 2关窗 3 一条缝 
   int32 rearLeftWindow = 9; // 左后
   int32 rearRightWindow = 10; //右后
-  int32 unknown2 = 11;
+  int32 hood = 11;
   int32 tailGate = 12;// 后尾箱
   int32 unknown3 = 13;
   int32 sunRoof = 14;//天窗

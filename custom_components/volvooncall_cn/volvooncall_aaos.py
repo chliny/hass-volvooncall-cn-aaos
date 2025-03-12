@@ -156,6 +156,7 @@ class AAOSVehicle(Vehicle):
         self.rear_right_window_open = AAOSWindowOpenType.isOpen(exterior_data.rearRightWindow)
         self.sunroof_open = AAOSWindowOpenType.isOpen(exterior_data.sunRoof)
         self.tail_gate_open = exterior_data.tailGate == AAOSWindowOpenType.Open
+        self.hood_open = AAOSWindowOpenType.isOpen(exterior_data.hood)
 
     async def _parse_fuel(self):
         try:
