@@ -77,7 +77,7 @@ class HonkFlashResp(_message.Message):
     data: _containers.RepeatedCompositeFieldContainer[invocationData]
     def __init__(self, data: _Optional[_Iterable[_Union[invocationData, _Mapping]]] = ...) -> None: ...
 
-class DoorControlReq(_message.Message):
+class LockReq(_message.Message):
     __slots__ = ("head", "openType")
     HEAD_FIELD_NUMBER: _ClassVar[int]
     OPENTYPE_FIELD_NUMBER: _ClassVar[int]
@@ -85,7 +85,7 @@ class DoorControlReq(_message.Message):
     openType: int
     def __init__(self, head: _Optional[_Union[invocationHead, _Mapping]] = ..., openType: _Optional[int] = ...) -> None: ...
 
-class DoorControlResp(_message.Message):
+class LockResp(_message.Message):
     __slots__ = ("data",)
     DATA_FIELD_NUMBER: _ClassVar[int]
     data: _containers.RepeatedCompositeFieldContainer[invocationData]

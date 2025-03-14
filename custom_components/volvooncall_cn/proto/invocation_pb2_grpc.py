@@ -49,10 +49,10 @@ class InvocationServiceStub(object):
             request_serializer=invocation__pb2.HonkFlashReq.SerializeToString,
             response_deserializer=invocation__pb2.HonkFlashResp.FromString,
             _registered_method=True)
-        self.DoorControl = channel.unary_stream(
-            '/invocation.InvocationService/DoorControl',
-            request_serializer=invocation__pb2.DoorControlReq.SerializeToString,
-            response_deserializer=invocation__pb2.DoorControlResp.FromString,
+        self.Lock = channel.unary_stream(
+            '/invocation.InvocationService/Lock',
+            request_serializer=invocation__pb2.LockReq.SerializeToString,
+            response_deserializer=invocation__pb2.LockResp.FromString,
             _registered_method=True)
 
 
@@ -77,7 +77,7 @@ class InvocationServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def DoorControl(self, request, context):
+    def Lock(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -101,10 +101,10 @@ def add_InvocationServiceServicer_to_server(servicer, server):
             request_deserializer=invocation__pb2.HonkFlashReq.FromString,
             response_serializer=invocation__pb2.HonkFlashResp.SerializeToString,
         ),
-        'DoorControl': grpc.unary_stream_rpc_method_handler(
-            servicer.DoorControl,
-            request_deserializer=invocation__pb2.DoorControlReq.FromString,
-            response_serializer=invocation__pb2.DoorControlResp.SerializeToString,
+        'Lock': grpc.unary_stream_rpc_method_handler(
+            servicer.Lock,
+            request_deserializer=invocation__pb2.LockReq.FromString,
+            response_serializer=invocation__pb2.LockResp.SerializeToString,
         ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -200,22 +200,22 @@ class InvocationService(object):
             _registered_method=True)
 
     @staticmethod
-    def DoorControl(request,
-                    target,
-                    options=(),
-                    channel_credentials=None,
-                    call_credentials=None,
-                    insecure=False,
-                    compression=None,
-                    wait_for_ready=None,
-                    timeout=None,
-                    metadata=None):
+    def Lock(request,
+             target,
+             options=(),
+             channel_credentials=None,
+             call_credentials=None,
+             insecure=False,
+             compression=None,
+             wait_for_ready=None,
+             timeout=None,
+             metadata=None):
         return grpc.experimental.unary_stream(
             request,
             target,
-            '/invocation.InvocationService/DoorControl',
-            invocation__pb2.DoorControlReq.SerializeToString,
-            invocation__pb2.DoorControlResp.FromString,
+            '/invocation.InvocationService/Lock',
+            invocation__pb2.LockReq.SerializeToString,
+            invocation__pb2.LockResp.FromString,
             options,
             channel_credentials,
             insecure,

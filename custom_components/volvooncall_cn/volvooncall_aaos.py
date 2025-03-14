@@ -12,6 +12,7 @@ from .proto.invocation_pb2_grpc import InvocationServiceStub
 from .proto.invocation_pb2 import windowControlReq, windowControlResp, invocationHead
 from .proto.invocation_pb2 import EngineStartReq, EngineStartResp
 from .proto.invocation_pb2 import HonkFlashReq, HonkFlashResp
+from .proto.invocation_pb2 import LockReq, LockResp
 from .proto.odometer_pb2_grpc import OdometerServiceStub
 from .proto.odometer_pb2 import GetOdometerReq, GetOdometerResp
 from .proto.availability_pb2_grpc import AvailabilityServiceStub
@@ -42,6 +43,11 @@ class AAOSWindowOpenType(object):
     @staticmethod
     def isClose(openType) -> bool:
         return openType == AAOSWindowOpenType.Close
+
+
+class AAOSDoorLockType(object):
+    UnLock = 0
+    Lock = 1
 
 
 class AAOSVehicleAPI(VehicleAPI):
@@ -158,6 +164,17 @@ class AAOSVehicleAPI(VehicleAPI):
             return True
         return False
 
+    async def door_control(self, vin, opentype) -> bool:
+        stub = InvocationServiceStub(self.channel)
+        req_header = invocationHead(vin=vin)
+        req = LockReq(head=req_header, openType=opentype)
+        metadata: list = [("vin", vin)]
+        res: LockResp = LockResp()
+        for res in stub.Lock(req, metadata=metadata, timeout=TIMEOUT.seconds):
+            _LOGGER.debug(res)
+            return True
+        return False
+
 
 class AAOSVehicle(Vehicle):
     def __init__(self, vin, api):
@@ -258,3 +275,15 @@ class AAOSVehicle(Vehicle):
 
     async def unlock_window(self):
         await self._api.window_control(self.vin, AAOSWindowOpenType.Open)
+
+    async def lock_vehicle(self, vin):
+        await self._api.door_control(vin, AAOSDoorLockType.Lock)
+
+    async def unlock_vehicle(self, vin):
+        await self._api.door_control(vin, AAOSDoorLockType.UnLock)
+
+    async def flash(self, vin):
+        await self._api.honk_flash_control(vin, True)
+
+    async def honk_and_flash(self, vin):
+        await self._api.honk_flash_control(vin, False)
