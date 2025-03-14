@@ -300,10 +300,10 @@ class Vehicle:
             "series_name": self.series_name,
             "model_name": self.model_name,
             "car_locked": self.car_locked,
-            "car_lock_open": not self.car_locked,
-            "car_locked_updated_at": self.car_locked_updated_at,
+            # "car_lock_open": not self.car_locked,
+            # "car_locked_updated_at": self.car_locked_updated_at,
             "distance_to_empty": self.distance_to_empty,
-            "distance_to_empty_updated_at": self.distance_to_empty_updated_at,
+            # "distance_to_empty_updated_at": self.distance_to_empty_updated_at,
             "tail_gate_open": self.tail_gate_open,
             "rear_right_door_open": self.rear_right_door_open,
             "rear_left_door_open": self.rear_left_door_open,
@@ -318,7 +318,7 @@ class Vehicle:
             "rear_left_window_open": self.rear_left_window_open,
             "rear_right_window_open": self.rear_right_window_open,
             "fuel_amount": self.fuel_amount,
-            "fuel_amount_level": self.fuel_amount_level,
+            # "fuel_amount_level": self.fuel_amount_level,
             "position": {
                 "longitude": self.position["longitude"],
                 "latitude": self.position["latitude"],
@@ -327,7 +327,7 @@ class Vehicle:
                 "longitude": self.position_wgs84["longitude"],
                 "latitude": self.position_wgs84["latitude"],
             },
-            "remote_door_unlock": self.remote_door_unlock,
+            # "remote_door_unlock": self.remote_door_unlock,
 
         }
 

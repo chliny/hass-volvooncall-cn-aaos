@@ -25,6 +25,7 @@ PLATFORMS = {
     "binary_sensor": "binary_sensor",
     "device_tracker": "device_tracker",
     "lock": "lock",
+    "button": "button",
 }
 
 _LOGGER = logging.getLogger(__name__)
@@ -227,7 +228,19 @@ metaMap = {
         "device_class": None,
         "icon": "",
         "unit": "",
-    }
+    },
+    "flash_button": {
+        "name": "Flash",
+        "device_class": None,
+        "icon": "mdi:car-light-high",
+        "unit": "",
+    },
+    "honk_flash_button": {
+        "name": "Honk And Flash",
+        "device_class": None,
+        "icon": "mdi:bugle",
+        "unit": "",
+    },
 }
 
 
