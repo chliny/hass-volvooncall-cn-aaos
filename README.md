@@ -10,7 +10,8 @@ Homeassistant volvooncall 中国区安卓车机版插件
 `{vin}` 表示车架号
 | ID                                          | 名称               | 备注                                                                                                                                     |
 |---------------------------------------------|--------------------|------------------------------------------------------------------------------------------------------------------------------------------|
-| `lock.{vin}_lock`                           | 车锁               | 可以远程锁定或解锁车辆。远程解锁时，会变更 `binary_sensor.{vin}_remote_door_unlock` 的状态；远程锁定时，会变更 `binary_sensor.{vin}_lock` 的状态 |
+| `lock.{vin}_lock`                           | 车锁               | 远程锁定或解锁车辆 |
+| `lock.{vin}_window_lock`                    | 车窗               | 远程开窗或关窗|
 | `sensor.{vin}_engine`                       | 引擎               |                                                                                                                                          |
 | `sensor.{vin}_distance_to_empty`            | 续航里程           |                                                                                                                                          |
 | `binary_sensor.{vin}_lock`                  | 车锁状态           |                                                                                                                                          |
@@ -23,10 +24,8 @@ Homeassistant volvooncall 中国区安卓车机版插件
 | `binary_sensor.{vin}_rear_left_window`      | 后左窗             |                                                                                                                                          |
 | `binary_sensor.{vin}_rear_right_window`     | 后右窗             |                                                                                                                                          |
 | `sensor.{vin}_fuel_amount`                  | 油箱剩余油量       |                                                                                                                                          |
-| `sensor.{vin}_fuel_amount_level`            | 油箱剩余油量百分比 |                                                                                                                                          |
 | `binary_sensor.{vin}_hood`                  | 引擎盖             | 表示引擎盖是否打开                                                                                                                       |
 | `sensor.{vin}_odometer`                     | 总里程             |                                                                                                                                          |
-| `binary_sensor.{vin}_remote_door_unlock`    | 远程解锁状态       | `lock.{vin}_lock` 执行“远程解锁时”会修改该状态                                                                                           |
 | `binary_sensor.{vin}_sunroof`               | 天窗               |                                                                                                                                          |
 | `binary_sensor.{vin}_tail_gate`             | 尾门               |                                                                                                                                          |
 | `device_tracker.{vin}_position`             | 位置               |                                                                                                                                          |
