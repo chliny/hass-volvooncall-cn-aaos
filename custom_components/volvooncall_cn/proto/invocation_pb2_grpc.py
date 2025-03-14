@@ -39,12 +39,45 @@ class InvocationServiceStub(object):
             request_serializer=invocation__pb2.windowControlReq.SerializeToString,
             response_deserializer=invocation__pb2.windowControlResp.FromString,
             _registered_method=True)
+        self.EngineStart = channel.unary_stream(
+            '/invocation.InvocationService/EngineStart',
+            request_serializer=invocation__pb2.EngineStartReq.SerializeToString,
+            response_deserializer=invocation__pb2.EngineStartResp.FromString,
+            _registered_method=True)
+        self.HonkFlash = channel.unary_stream(
+            '/invocation.InvocationService/HonkFlash',
+            request_serializer=invocation__pb2.HonkFlashReq.SerializeToString,
+            response_deserializer=invocation__pb2.HonkFlashResp.FromString,
+            _registered_method=True)
+        self.DoorControl = channel.unary_stream(
+            '/invocation.InvocationService/DoorControl',
+            request_serializer=invocation__pb2.DoorControlReq.SerializeToString,
+            response_deserializer=invocation__pb2.DoorControlResp.FromString,
+            _registered_method=True)
 
 
 class InvocationServiceServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     def WindowControl(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def EngineStart(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def HonkFlash(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def DoorControl(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -57,6 +90,21 @@ def add_InvocationServiceServicer_to_server(servicer, server):
             servicer.WindowControl,
             request_deserializer=invocation__pb2.windowControlReq.FromString,
             response_serializer=invocation__pb2.windowControlResp.SerializeToString,
+        ),
+        'EngineStart': grpc.unary_stream_rpc_method_handler(
+            servicer.EngineStart,
+            request_deserializer=invocation__pb2.EngineStartReq.FromString,
+            response_serializer=invocation__pb2.EngineStartResp.SerializeToString,
+        ),
+        'HonkFlash': grpc.unary_stream_rpc_method_handler(
+            servicer.HonkFlash,
+            request_deserializer=invocation__pb2.HonkFlashReq.FromString,
+            response_serializer=invocation__pb2.HonkFlashResp.SerializeToString,
+        ),
+        'DoorControl': grpc.unary_stream_rpc_method_handler(
+            servicer.DoorControl,
+            request_deserializer=invocation__pb2.DoorControlReq.FromString,
+            response_serializer=invocation__pb2.DoorControlResp.SerializeToString,
         ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -87,6 +135,87 @@ class InvocationService(object):
             '/invocation.InvocationService/WindowControl',
             invocation__pb2.windowControlReq.SerializeToString,
             invocation__pb2.windowControlResp.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def EngineStart(request,
+                    target,
+                    options=(),
+                    channel_credentials=None,
+                    call_credentials=None,
+                    insecure=False,
+                    compression=None,
+                    wait_for_ready=None,
+                    timeout=None,
+                    metadata=None):
+        return grpc.experimental.unary_stream(
+            request,
+            target,
+            '/invocation.InvocationService/EngineStart',
+            invocation__pb2.EngineStartReq.SerializeToString,
+            invocation__pb2.EngineStartResp.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def HonkFlash(request,
+                  target,
+                  options=(),
+                  channel_credentials=None,
+                  call_credentials=None,
+                  insecure=False,
+                  compression=None,
+                  wait_for_ready=None,
+                  timeout=None,
+                  metadata=None):
+        return grpc.experimental.unary_stream(
+            request,
+            target,
+            '/invocation.InvocationService/HonkFlash',
+            invocation__pb2.HonkFlashReq.SerializeToString,
+            invocation__pb2.HonkFlashResp.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def DoorControl(request,
+                    target,
+                    options=(),
+                    channel_credentials=None,
+                    call_credentials=None,
+                    insecure=False,
+                    compression=None,
+                    wait_for_ready=None,
+                    timeout=None,
+                    metadata=None):
+        return grpc.experimental.unary_stream(
+            request,
+            target,
+            '/invocation.InvocationService/DoorControl',
+            invocation__pb2.DoorControlReq.SerializeToString,
+            invocation__pb2.DoorControlResp.FromString,
             options,
             channel_credentials,
             insecure,

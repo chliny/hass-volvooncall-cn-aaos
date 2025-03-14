@@ -9,7 +9,9 @@ from .proto.exterior_pb2 import GetExteriorReq, GetExteriorResp, ExteriorData
 from .proto.fuel_pb2_grpc import FuelServiceStub
 from .proto.fuel_pb2 import GetFuelReq, GetFuelResp
 from .proto.invocation_pb2_grpc import InvocationServiceStub
-from .proto.invocation_pb2 import windowControlReq, windowControlResp, windowControlReqHead
+from .proto.invocation_pb2 import windowControlReq, windowControlResp, invocationHead
+from .proto.invocation_pb2 import EngineStartReq, EngineStartResp
+from .proto.invocation_pb2 import HonkFlashReq, HonkFlashResp
 from .proto.odometer_pb2_grpc import OdometerServiceStub
 from .proto.odometer_pb2 import GetOdometerReq, GetOdometerResp
 from .proto.availability_pb2_grpc import AvailabilityServiceStub
@@ -111,11 +113,12 @@ class AAOSVehicleAPI(VehicleAPI):
 
     async def window_control(self, vin, opentype) -> bool:
         stub = InvocationServiceStub(self.channel)
-        req_header = windowControlReqHead(vin=vin)
+        req_header = invocationHead(vin=vin)
         req = windowControlReq(head=req_header, openType=opentype)
         metadata: list = [("vin", vin)]
         res: windowControlResp = windowControlResp()
         for res in stub.WindowControl(req, metadata=metadata, timeout=TIMEOUT.seconds):
+            # TODO check res
             _LOGGER.debug(res)
             return True
         return False
@@ -130,6 +133,30 @@ class AAOSVehicleAPI(VehicleAPI):
             _LOGGER.debug(res)
             break
         return res
+
+    async def engine_start(self, vin, startDurationHour) -> bool:
+        stub = InvocationServiceStub(self.channel)
+        req_header = invocationHead(vin=vin)
+        req = EngineStartReq(head=req_header, openType=AAOSWindowOpenType.Open, startDurationHour=startDurationHour)
+        metadata: list = [("vin", vin)]
+        res: EngineStartResp = EngineStartResp()
+        for res in stub.EngineStart(req, metadata=metadata, timeout=TIMEOUT.seconds):
+            _LOGGER.debug(res)
+            return True
+        return False
+
+    async def honk_flash_control(self, vin, is_only_flash: bool) -> bool:
+        stub = InvocationServiceStub(self.channel)
+        req_header = invocationHead(vin=vin)
+        req = HonkFlashReq(head=req_header)
+        if is_only_flash:
+            req.onlyFlash = 2
+        metadata: list = [("vin", vin)]
+        res: HonkFlashResp = HonkFlashResp()
+        for res in stub.HonkFlash(req, metadata=metadata, timeout=TIMEOUT.seconds):
+            _LOGGER.debug(res)
+            return True
+        return False
 
 
 class AAOSVehicle(Vehicle):

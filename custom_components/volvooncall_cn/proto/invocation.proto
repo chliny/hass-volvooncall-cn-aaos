@@ -4,14 +4,16 @@ package invocation;
 
 service InvocationService {
   rpc WindowControl(windowControlReq) returns(stream windowControlResp) {}
+  rpc EngineStart(EngineStartReq) returns(stream EngineStartResp) {}
+  rpc HonkFlash(HonkFlashReq) returns(stream HonkFlashResp) {}
 }
 
-message windowControlReqHead {
+message invocationHead{
   string vin = 1;
 }
 
 message windowControlReq {
-  windowControlReqHead head = 1;
+  invocationHead head = 1;
   int32 openType = 2;
 }
 
@@ -21,6 +23,33 @@ message windowData {
   int64 timestamp = 3;
 }
 
-message windowControlResp {
-  repeated windowData data = 1;
+message invocationData {
+  string deviceid = 1;
+  string vin = 2;
+  int32 openType = 3;
+  int64 timestamp = 5;
 }
+
+message windowControlResp {
+  repeated invocationData data = 1;
+}
+
+message EngineStartReq {
+  invocationHead head = 1;
+  int32 openType = 2;
+  int32 startDurationHour = 3;
+}
+
+message EngineStartResp {
+  repeated invocationData data = 1;
+}
+
+message HonkFlashReq{
+  invocationHead head = 1;
+  int32 onlyFlash = 2; //2: 仅闪灯; 默认: 闪灯鸣笛
+}
+
+message HonkFlashResp {
+  repeated invocationData data = 1;
+}
+
