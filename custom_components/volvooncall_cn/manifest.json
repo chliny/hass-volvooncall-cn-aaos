@@ -10,8 +10,7 @@
     "documentation": "https://github.com/chliny/hass-volvooncall-cn-aaos",
     "iot_class": "cloud_polling",
     "requirements": [
-        "grpcio",
-        "grpcio-tools"
+        "grpcio"
     ],
     "version": "2.0.1",
     "loggers": [
