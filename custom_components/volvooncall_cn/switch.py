@@ -1,4 +1,5 @@
 import logging
+import asyncio
 from homeassistant.core import HomeAssistant
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
@@ -30,11 +31,16 @@ class VolvoEngineSwitch(VolvoEntity, SwitchEntity):
         super().__init__(coordinator, idx, metaMapKey)
 
     async def async_turn_on(self) -> None:
+        if self.is_on:
+            _LOGGER.debug("engine already running")
+            return
         await self.coordinator.data[self.idx].engine_start()
+        await asyncio.sleep(2)
         await self.coordinator.async_request_refresh()
 
     async def async_turn_off(self) -> None:
         await self.coordinator.data[self.idx].engine_stop()
+        await asyncio.sleep(2)
         await self.coordinator.async_request_refresh()
 
     @property

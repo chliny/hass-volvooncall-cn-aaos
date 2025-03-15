@@ -54,6 +54,11 @@ class InvocationServiceStub(object):
             request_serializer=invocation__pb2.LockReq.SerializeToString,
             response_deserializer=invocation__pb2.LockResp.FromString,
             _registered_method=True)
+        self.Unlock = channel.unary_stream(
+            '/invocation.InvocationService/Unlock',
+            request_serializer=invocation__pb2.LockReq.SerializeToString,
+            response_deserializer=invocation__pb2.LockResp.FromString,
+            _registered_method=True)
 
 
 class InvocationServiceServicer(object):
@@ -83,6 +88,12 @@ class InvocationServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def Unlock(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_InvocationServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -103,6 +114,11 @@ def add_InvocationServiceServicer_to_server(servicer, server):
         ),
         'Lock': grpc.unary_stream_rpc_method_handler(
             servicer.Lock,
+            request_deserializer=invocation__pb2.LockReq.FromString,
+            response_serializer=invocation__pb2.LockResp.SerializeToString,
+        ),
+        'Unlock': grpc.unary_stream_rpc_method_handler(
+            servicer.Unlock,
             request_deserializer=invocation__pb2.LockReq.FromString,
             response_serializer=invocation__pb2.LockResp.SerializeToString,
         ),
@@ -214,6 +230,33 @@ class InvocationService(object):
             request,
             target,
             '/invocation.InvocationService/Lock',
+            invocation__pb2.LockReq.SerializeToString,
+            invocation__pb2.LockResp.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def Unlock(request,
+               target,
+               options=(),
+               channel_credentials=None,
+               call_credentials=None,
+               insecure=False,
+               compression=None,
+               wait_for_ready=None,
+               timeout=None,
+               metadata=None):
+        return grpc.experimental.unary_stream(
+            request,
+            target,
+            '/invocation.InvocationService/Unlock',
             invocation__pb2.LockReq.SerializeToString,
             invocation__pb2.LockResp.FromString,
             options,

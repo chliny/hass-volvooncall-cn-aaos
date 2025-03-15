@@ -1,8 +1,33 @@
+from google.protobuf.internal import enum_type_wrapper as _enum_type_wrapper
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from typing import ClassVar as _ClassVar, Mapping as _Mapping, Optional as _Optional, Union as _Union
 
 DESCRIPTOR: _descriptor.FileDescriptor
+
+class AvailabilityState(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+    __slots__ = ()
+    Unknow1: _ClassVar[AvailabilityState]
+    NotRunning: _ClassVar[AvailabilityState]
+    RuningRecent: _ClassVar[AvailabilityState]
+    Unknow2: _ClassVar[AvailabilityState]
+    Unknow3: _ClassVar[AvailabilityState]
+    RunningWithKeyInCar: _ClassVar[AvailabilityState]
+
+class AvailabilityBool(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+    __slots__ = ()
+    Unknow4: _ClassVar[AvailabilityBool]
+    No: _ClassVar[AvailabilityBool]
+    Yes: _ClassVar[AvailabilityBool]
+Unknow1: AvailabilityState
+NotRunning: AvailabilityState
+RuningRecent: AvailabilityState
+Unknow2: AvailabilityState
+Unknow3: AvailabilityState
+RunningWithKeyInCar: AvailabilityState
+Unknow4: AvailabilityBool
+No: AvailabilityBool
+Yes: AvailabilityBool
 
 class GetAvailabilityReq(_message.Message):
     __slots__ = ("vin",)
@@ -19,23 +44,19 @@ class AvailabilityDataHead(_message.Message):
     def __init__(self, updateTime: _Optional[int] = ..., unknown1: _Optional[int] = ...) -> None: ...
 
 class AvailabilityData(_message.Message):
-    __slots__ = ("head", "engineRunning", "unknown2", "engineRemoteRunning")
+    __slots__ = ("head", "engineLocalRunning", "engineRunningState")
     HEAD_FIELD_NUMBER: _ClassVar[int]
-    ENGINERUNNING_FIELD_NUMBER: _ClassVar[int]
-    UNKNOWN2_FIELD_NUMBER: _ClassVar[int]
-    ENGINEREMOTERUNNING_FIELD_NUMBER: _ClassVar[int]
+    ENGINELOCALRUNNING_FIELD_NUMBER: _ClassVar[int]
+    ENGINERUNNINGSTATE_FIELD_NUMBER: _ClassVar[int]
     head: AvailabilityDataHead
-    engineRunning: int
-    unknown2: int
-    engineRemoteRunning: int
-    def __init__(self, head: _Optional[_Union[AvailabilityDataHead, _Mapping]] = ..., engineRunning: _Optional[int] = ..., unknown2: _Optional[int] = ..., engineRemoteRunning: _Optional[int] = ...) -> None: ...
+    engineLocalRunning: AvailabilityBool
+    engineRunningState: AvailabilityState
+    def __init__(self, head: _Optional[_Union[AvailabilityDataHead, _Mapping]] = ..., engineLocalRunning: _Optional[_Union[AvailabilityBool, str]] = ..., engineRunningState: _Optional[_Union[AvailabilityState, str]] = ...) -> None: ...
 
 class GetAvailabilityResp(_message.Message):
-    __slots__ = ("vin", "data", "unknown4")
+    __slots__ = ("vin", "data")
     VIN_FIELD_NUMBER: _ClassVar[int]
     DATA_FIELD_NUMBER: _ClassVar[int]
-    UNKNOWN4_FIELD_NUMBER: _ClassVar[int]
     vin: str
     data: AvailabilityData
-    unknown4: int
-    def __init__(self, vin: _Optional[str] = ..., data: _Optional[_Union[AvailabilityData, _Mapping]] = ..., unknown4: _Optional[int] = ...) -> None: ...
+    def __init__(self, vin: _Optional[str] = ..., data: _Optional[_Union[AvailabilityData, _Mapping]] = ...) -> None: ...

@@ -1,9 +1,17 @@
 from google.protobuf.internal import containers as _containers
+from google.protobuf.internal import enum_type_wrapper as _enum_type_wrapper
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from typing import ClassVar as _ClassVar, Iterable as _Iterable, Mapping as _Mapping, Optional as _Optional, Union as _Union
 
 DESCRIPTOR: _descriptor.FileDescriptor
+
+class EngineStartType(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+    __slots__ = ()
+    Stop: _ClassVar[EngineStartType]
+    Start: _ClassVar[EngineStartType]
+Stop: EngineStartType
+Start: EngineStartType
 
 class invocationHead(_message.Message):
     __slots__ = ("vin",)
@@ -53,9 +61,9 @@ class EngineStartReq(_message.Message):
     OPENTYPE_FIELD_NUMBER: _ClassVar[int]
     STARTDURATIONMIN_FIELD_NUMBER: _ClassVar[int]
     head: invocationHead
-    openType: int
+    openType: EngineStartType
     startDurationMin: int
-    def __init__(self, head: _Optional[_Union[invocationHead, _Mapping]] = ..., openType: _Optional[int] = ..., startDurationMin: _Optional[int] = ...) -> None: ...
+    def __init__(self, head: _Optional[_Union[invocationHead, _Mapping]] = ..., openType: _Optional[_Union[EngineStartType, str]] = ..., startDurationMin: _Optional[int] = ...) -> None: ...
 
 class EngineStartResp(_message.Message):
     __slots__ = ("data",)
@@ -78,12 +86,12 @@ class HonkFlashResp(_message.Message):
     def __init__(self, data: _Optional[_Iterable[_Union[invocationData, _Mapping]]] = ...) -> None: ...
 
 class LockReq(_message.Message):
-    __slots__ = ("head", "openType")
+    __slots__ = ("head", "lockType")
     HEAD_FIELD_NUMBER: _ClassVar[int]
-    OPENTYPE_FIELD_NUMBER: _ClassVar[int]
+    LOCKTYPE_FIELD_NUMBER: _ClassVar[int]
     head: invocationHead
-    openType: int
-    def __init__(self, head: _Optional[_Union[invocationHead, _Mapping]] = ..., openType: _Optional[int] = ...) -> None: ...
+    lockType: int
+    def __init__(self, head: _Optional[_Union[invocationHead, _Mapping]] = ..., lockType: _Optional[int] = ...) -> None: ...
 
 class LockResp(_message.Message):
     __slots__ = ("data",)

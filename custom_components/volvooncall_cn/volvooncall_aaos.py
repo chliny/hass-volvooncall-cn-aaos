@@ -10,15 +10,17 @@ from .proto.fuel_pb2_grpc import FuelServiceStub
 from .proto.fuel_pb2 import GetFuelReq, GetFuelResp
 from .proto.invocation_pb2_grpc import InvocationServiceStub
 from .proto.invocation_pb2 import windowControlReq, windowControlResp, invocationHead
-from .proto.invocation_pb2 import EngineStartReq, EngineStartResp
+from .proto.invocation_pb2 import EngineStartReq, EngineStartResp, EngineStartType
 from .proto.invocation_pb2 import HonkFlashReq, HonkFlashResp
 from .proto.invocation_pb2 import LockReq, LockResp
 from .proto.odometer_pb2_grpc import OdometerServiceStub
 from .proto.odometer_pb2 import GetOdometerReq, GetOdometerResp
 from .proto.availability_pb2_grpc import AvailabilityServiceStub
-from .proto.availability_pb2 import GetAvailabilityReq, GetAvailabilityResp
+from .proto.availability_pb2 import GetAvailabilityReq, GetAvailabilityResp, AvailabilityBool
 from .proto.dtlinternet_pb2_grpc import DtlInternetServiceStub
 from .proto.dtlinternet_pb2 import StreamLastKnownLocationsReq, StreamLastKnownLocationsResp
+from .proto.engineremotestart_pb2_grpc import EngineRemoteStartServiceStub
+from .proto.engineremotestart_pb2 import GetEngineRemoteStartReq, GetEngineRemoteStartResp, EngineRemoteStartType
 
 
 _LOGGER = logging.getLogger(__name__)
@@ -43,21 +45,6 @@ class AAOSWindowOpenType(object):
     @staticmethod
     def isClose(openType) -> bool:
         return openType == AAOSWindowOpenType.Close
-
-
-class AAOSDoorLockType(object):
-    UnLock = 0
-    Lock = 1
-
-
-class EngineStartType(object):
-    Stop = 0
-    Start = 1
-
-
-class EngineRunStatus(object):
-    Stop = 1
-    Running = 2
 
 
 class AAOSVehicleAPI(VehicleAPI):
@@ -180,16 +167,37 @@ class AAOSVehicleAPI(VehicleAPI):
             return True
         return False
 
-    async def door_control(self, vin, opentype) -> bool:
+    async def door_lock(self, vin) -> bool:
         stub = InvocationServiceStub(self.channel)
         req_header = invocationHead(vin=vin)
-        req = LockReq(head=req_header, openType=opentype)
+        req = LockReq(head=req_header, lockType=2)
         metadata: list = [("vin", vin)]
         res: LockResp = LockResp()
         for res in stub.Lock(req, metadata=metadata, timeout=TIMEOUT.seconds):
             _LOGGER.debug(res)
             return True
         return False
+
+    async def door_unlock(self, vin) -> bool:
+        stub = InvocationServiceStub(self.channel)
+        req_header = invocationHead(vin=vin)
+        req = LockReq(head=req_header, lockType=2)
+        metadata: list = [("vin", vin)]
+        res: LockResp = LockResp()
+        for res in stub.Unlock(req, metadata=metadata, timeout=TIMEOUT.seconds):
+            _LOGGER.debug(res)
+            return True
+        return False
+
+    async def get_engine_status(self, vin):
+        stub = EngineRemoteStartServiceStub(self.channel)
+        req = GetEngineRemoteStartReq(vin=vin)
+        metadata: list = [("vin", vin)]
+        res: GetEngineRemoteStartResp = GetEngineRemoteStartResp()
+        for res in stub.GetEngineRemoteStart(req, metadata=metadata, timeout=TIMEOUT.seconds):
+            _LOGGER.debug(res)
+            break
+        return res
 
 
 class AAOSVehicle(Vehicle):
@@ -247,8 +255,7 @@ class AAOSVehicle(Vehicle):
         except Exception as err:
             _LOGGER.error(err)
             return
-        self.engine_running = availability_data.engineRunning == EngineRunStatus.Running
-        self.engine_remote_running = availability_data.engineRemoteRunning == EngineRunStatus.Running
+        self.engine_running = availability_data.engineLocalRunning == AvailabilityBool.Yes
 
     async def _parse_location(self):
         try:
@@ -267,6 +274,19 @@ class AAOSVehicle(Vehicle):
                 "latitude": wgs84_data[1],
             }
 
+    async def _parse_engine_status(self):
+        try:
+            engine_resp: GetEngineRemoteStartResp = await self._api.get_engine_status(self.vin)
+            engine_data = engine_resp.data
+        except Exception as err:
+            _LOGGER.error(err)
+            return
+        if engine_data.engineStarting == EngineRemoteStartType.Yes or \
+                engine_data.engineStarted in [EngineRemoteStartType.Yes, EngineRemoteStartType.Starting]:
+            self.engine_remote_running = True
+        else:
+            self.engine_remote_running = False
+
     async def update(self):
         if not self.series_name:
             vehicles = await self._api.get_vehicles()
@@ -279,7 +299,7 @@ class AAOSVehicle(Vehicle):
         await self._api.get_channel()
         async with asyncio.TaskGroup() as tg:
             funcs = [self._parse_exterior, self._parse_odometer,
-                     self._parse_fuel, self._parse_availability, self._parse_location]
+                     self._parse_fuel, self._parse_availability, self._parse_location, self._parse_engine_status]
             for runf in funcs:
                 task = tg.create_task(runf())
                 tasks.append(task)
@@ -293,10 +313,10 @@ class AAOSVehicle(Vehicle):
         await self._api.window_control(self.vin, AAOSWindowOpenType.Open)
 
     async def lock_vehicle(self):
-        await self._api.door_control(self.vin, AAOSDoorLockType.Lock)
+        await self._api.door_lock(self.vin)
 
     async def unlock_vehicle(self):
-        await self._api.door_control(self.vin, AAOSDoorLockType.UnLock)
+        await self._api.door_unlock(self.vin)
 
     async def flash(self):
         await self._api.honk_flash_control(self.vin, True)

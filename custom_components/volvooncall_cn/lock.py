@@ -60,14 +60,18 @@ class VolvoSensor(VolvoEntity, LockEntity):
 
     async def async_lock(self, **kwargs: Any) -> None:
         """Lock the car."""
+        data_map = self.coordinator.data[self.idx].toMap()
+        if data_map["engine_running"]:
+            raise Exception("Engine running!  Prohibited to lock the car")
         await self.coordinator.data[self.idx].lock_vehicle()
         await self.coordinator.async_request_refresh()
 
     async def async_unlock(self, **kwargs: Any) -> None:
         """Unlock the car."""
-        if not self.coordinator.data[self.idx].toMap()["car_locked"]:
-            await self.coordinator.data[self.idx].unlock_vehicle()
-
+        data_map = self.coordinator.data[self.idx].toMap()
+        if data_map["engine_running"]:
+            raise Exception("Engine running!  Prohibited to unlock the car")
+        await self.coordinator.data[self.idx].unlock_vehicle()
         await self.coordinator.async_request_refresh()
 
 
@@ -89,9 +93,15 @@ class VolvoWindowSensor(VolvoEntity, LockEntity):
         return True
 
     async def async_lock(self, **kwargs: Any) -> None:
+        data_map = self.coordinator.data[self.idx].toMap()
+        if data_map["engine_running"]:
+            raise Exception("Engine running!  Prohibited to lock windows")
         await self.coordinator.data[self.idx].lock_window()
         await self.coordinator.async_request_refresh()
 
     async def async_unlock(self, **kwargs: Any) -> None:
+        data_map = self.coordinator.data[self.idx].toMap()
+        if data_map["engine_running"]:
+            raise Exception("Engine running!  Prohibited to unlock windows")
         await self.coordinator.data[self.idx].unlock_window()
         await self.coordinator.async_request_refresh()

@@ -7,6 +7,7 @@ service InvocationService {
   rpc EngineStart(EngineStartReq) returns(stream EngineStartResp) {}
   rpc HonkFlash(HonkFlashReq) returns(stream HonkFlashResp) {}
   rpc Lock(LockReq) returns (stream LockResp) {}
+  rpc Unlock(LockReq) returns (stream LockResp) {}
 }
 
 message invocationHead{
@@ -35,9 +36,14 @@ message windowControlResp {
   repeated invocationData data = 1;
 }
 
+enum EngineStartType {
+  Stop = 0;
+  Start = 1;
+}
+
 message EngineStartReq {
   invocationHead head = 1;
-  int32 openType = 2;
+  EngineStartType openType = 2;
   int32 startDurationMin = 3;
 }
 
@@ -56,7 +62,7 @@ message HonkFlashResp {
 
 message LockReq{
   invocationHead  head = 1;
-  int32 openType = 2;
+  int32 lockType = 2;
 }
 
 message LockResp{
