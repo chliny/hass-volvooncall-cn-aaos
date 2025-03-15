@@ -26,6 +26,8 @@ PLATFORMS = {
     "device_tracker": "device_tracker",
     "lock": "lock",
     "button": "button",
+    "number": "number",
+    "switch": "switch",
 }
 
 _LOGGER = logging.getLogger(__name__)
@@ -206,7 +208,7 @@ metaMap = {
     },
     "fuel_amount": {
         "name": "Fuel amount",
-        "device_class": None,
+        "device_class": "VOLUME_STORAGE",
         "icon": "mdi:gas-station",
         "unit": "L",
     },
@@ -241,6 +243,18 @@ metaMap = {
         "icon": "mdi:bugle",
         "unit": "",
     },
+    "engine_duration_number": {
+        "name": "Engine Duration",
+        "device_class": None,
+        "icon": "mdi:clock-time-eight-outline",
+        "unit": "Minute",
+    },
+    "engine_switch": {
+        "name": "Engine Remote control",
+        "device_class": None,
+        "icon": "mdi:engine-outline",
+        "unit": "",
+    }
 }
 
 

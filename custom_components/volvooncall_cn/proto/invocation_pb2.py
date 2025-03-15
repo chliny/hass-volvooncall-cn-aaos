@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x10invocation.proto\x12\ninvocation\"\x1d\n\x0einvocationHead\x12\x0b\n\x03vin\x18\x01 \x01(\t\"N\n\x10windowControlReq\x12(\n\x04head\x18\x01 \x01(\x0b\x32\x1a.invocation.invocationHead\x12\x10\n\x08openType\x18\x02 \x01(\x05\">\n\nwindowData\x12\x10\n\x08\x64\x65viceid\x18\x01 \x01(\t\x12\x0b\n\x03vin\x18\x02 \x01(\t\x12\x11\n\ttimestamp\x18\x03 \x01(\x03\"T\n\x0einvocationData\x12\x10\n\x08\x64\x65viceid\x18\x01 \x01(\t\x12\x0b\n\x03vin\x18\x02 \x01(\t\x12\x10\n\x08openType\x18\x03 \x01(\x05\x12\x11\n\ttimestamp\x18\x05 \x01(\x03\"=\n\x11windowControlResp\x12(\n\x04\x64\x61ta\x18\x01 \x03(\x0b\x32\x1a.invocation.invocationData\"g\n\x0e\x45ngineStartReq\x12(\n\x04head\x18\x01 \x01(\x0b\x32\x1a.invocation.invocationHead\x12\x10\n\x08openType\x18\x02 \x01(\x05\x12\x19\n\x11startDurationHour\x18\x03 \x01(\x05\";\n\x0f\x45ngineStartResp\x12(\n\x04\x64\x61ta\x18\x01 \x03(\x0b\x32\x1a.invocation.invocationData\"K\n\x0cHonkFlashReq\x12(\n\x04head\x18\x01 \x01(\x0b\x32\x1a.invocation.invocationHead\x12\x11\n\tonlyFlash\x18\x02 \x01(\x05\"9\n\rHonkFlashResp\x12(\n\x04\x64\x61ta\x18\x01 \x03(\x0b\x32\x1a.invocation.invocationData\"E\n\x07LockReq\x12(\n\x04head\x18\x01 \x01(\x0b\x32\x1a.invocation.invocationHead\x12\x10\n\x08openType\x18\x02 \x01(\x05\"4\n\x08LockResp\x12(\n\x04\x64\x61ta\x18\x01 \x03(\x0b\x32\x1a.invocation.invocationData2\xae\x02\n\x11InvocationService\x12P\n\rWindowControl\x12\x1c.invocation.windowControlReq\x1a\x1d.invocation.windowControlResp\"\x00\x30\x01\x12J\n\x0b\x45ngineStart\x12\x1a.invocation.EngineStartReq\x1a\x1b.invocation.EngineStartResp\"\x00\x30\x01\x12\x44\n\tHonkFlash\x12\x18.invocation.HonkFlashReq\x1a\x19.invocation.HonkFlashResp\"\x00\x30\x01\x12\x35\n\x04Lock\x12\x13.invocation.LockReq\x1a\x14.invocation.LockResp\"\x00\x30\x01\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x10invocation.proto\x12\ninvocation\"\x1d\n\x0einvocationHead\x12\x0b\n\x03vin\x18\x01 \x01(\t\"N\n\x10windowControlReq\x12(\n\x04head\x18\x01 \x01(\x0b\x32\x1a.invocation.invocationHead\x12\x10\n\x08openType\x18\x02 \x01(\x05\">\n\nwindowData\x12\x10\n\x08\x64\x65viceid\x18\x01 \x01(\t\x12\x0b\n\x03vin\x18\x02 \x01(\t\x12\x11\n\ttimestamp\x18\x03 \x01(\x03\"T\n\x0einvocationData\x12\x10\n\x08\x64\x65viceid\x18\x01 \x01(\t\x12\x0b\n\x03vin\x18\x02 \x01(\t\x12\x10\n\x08openType\x18\x03 \x01(\x05\x12\x11\n\ttimestamp\x18\x05 \x01(\x03\"=\n\x11windowControlResp\x12(\n\x04\x64\x61ta\x18\x01 \x03(\x0b\x32\x1a.invocation.invocationData\"f\n\x0e\x45ngineStartReq\x12(\n\x04head\x18\x01 \x01(\x0b\x32\x1a.invocation.invocationHead\x12\x10\n\x08openType\x18\x02 \x01(\x05\x12\x18\n\x10startDurationMin\x18\x03 \x01(\x05\";\n\x0f\x45ngineStartResp\x12(\n\x04\x64\x61ta\x18\x01 \x03(\x0b\x32\x1a.invocation.invocationData\"K\n\x0cHonkFlashReq\x12(\n\x04head\x18\x01 \x01(\x0b\x32\x1a.invocation.invocationHead\x12\x11\n\tonlyFlash\x18\x02 \x01(\x05\"9\n\rHonkFlashResp\x12(\n\x04\x64\x61ta\x18\x01 \x03(\x0b\x32\x1a.invocation.invocationData\"E\n\x07LockReq\x12(\n\x04head\x18\x01 \x01(\x0b\x32\x1a.invocation.invocationHead\x12\x10\n\x08openType\x18\x02 \x01(\x05\"4\n\x08LockResp\x12(\n\x04\x64\x61ta\x18\x01 \x03(\x0b\x32\x1a.invocation.invocationData2\xae\x02\n\x11InvocationService\x12P\n\rWindowControl\x12\x1c.invocation.windowControlReq\x1a\x1d.invocation.windowControlResp\"\x00\x30\x01\x12J\n\x0b\x45ngineStart\x12\x1a.invocation.EngineStartReq\x1a\x1b.invocation.EngineStartResp\"\x00\x30\x01\x12\x44\n\tHonkFlash\x12\x18.invocation.HonkFlashReq\x1a\x19.invocation.HonkFlashResp\"\x00\x30\x01\x12\x35\n\x04Lock\x12\x13.invocation.LockReq\x1a\x14.invocation.LockResp\"\x00\x30\x01\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -42,17 +42,17 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_WINDOWCONTROLRESP']._serialized_start=293
   _globals['_WINDOWCONTROLRESP']._serialized_end=354
   _globals['_ENGINESTARTREQ']._serialized_start=356
-  _globals['_ENGINESTARTREQ']._serialized_end=459
-  _globals['_ENGINESTARTRESP']._serialized_start=461
-  _globals['_ENGINESTARTRESP']._serialized_end=520
-  _globals['_HONKFLASHREQ']._serialized_start=522
-  _globals['_HONKFLASHREQ']._serialized_end=597
-  _globals['_HONKFLASHRESP']._serialized_start=599
-  _globals['_HONKFLASHRESP']._serialized_end=656
-  _globals['_LOCKREQ']._serialized_start=658
-  _globals['_LOCKREQ']._serialized_end=727
-  _globals['_LOCKRESP']._serialized_start=729
-  _globals['_LOCKRESP']._serialized_end=781
-  _globals['_INVOCATIONSERVICE']._serialized_start=784
-  _globals['_INVOCATIONSERVICE']._serialized_end=1086
+  _globals['_ENGINESTARTREQ']._serialized_end=458
+  _globals['_ENGINESTARTRESP']._serialized_start=460
+  _globals['_ENGINESTARTRESP']._serialized_end=519
+  _globals['_HONKFLASHREQ']._serialized_start=521
+  _globals['_HONKFLASHREQ']._serialized_end=596
+  _globals['_HONKFLASHRESP']._serialized_start=598
+  _globals['_HONKFLASHRESP']._serialized_end=655
+  _globals['_LOCKREQ']._serialized_start=657
+  _globals['_LOCKREQ']._serialized_end=726
+  _globals['_LOCKRESP']._serialized_start=728
+  _globals['_LOCKRESP']._serialized_end=780
+  _globals['_INVOCATIONSERVICE']._serialized_start=783
+  _globals['_INVOCATIONSERVICE']._serialized_end=1085
 # @@protoc_insertion_point(module_scope)

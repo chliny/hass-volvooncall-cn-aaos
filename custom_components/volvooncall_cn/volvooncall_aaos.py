@@ -50,6 +50,11 @@ class AAOSDoorLockType(object):
     Lock = 1
 
 
+class EngineStartType(object):
+    Start = 1
+    Stop = 2
+
+
 class AAOSVehicleAPI(VehicleAPI):
     def __init__(self, session, username, password):
         super(AAOSVehicleAPI, self).__init__(session, username, password)
@@ -58,6 +63,7 @@ class AAOSVehicleAPI(VehicleAPI):
         self.channel_token: str = ""
         self.lbs_channel = None
         self.lbs_channel_token: str = ""
+        self.engine_duration = 5
 
     async def gen_channel(self, token, target):
         callCreds = grpc.access_token_call_credentials(token)
@@ -140,10 +146,15 @@ class AAOSVehicleAPI(VehicleAPI):
             break
         return res
 
-    async def engine_start(self, vin, startDurationHour) -> bool:
+    async def engine_control(self, vin, startType) -> bool:
         stub = InvocationServiceStub(self.channel)
         req_header = invocationHead(vin=vin)
-        req = EngineStartReq(head=req_header, openType=AAOSWindowOpenType.Open, startDurationHour=startDurationHour)
+        req = EngineStartReq()
+        if startType == EngineStartType.Start:
+            duration = int(self.engine_duration)
+            req = EngineStartReq(head=req_header, openType=startType, startDurationMin=duration)
+        else:
+            req = EngineStartReq(head=req_header, openType=startType)
         metadata: list = [("vin", vin)]
         res: EngineStartResp = EngineStartResp()
         for res in stub.EngineStart(req, metadata=metadata, timeout=TIMEOUT.seconds):
@@ -179,7 +190,6 @@ class AAOSVehicleAPI(VehicleAPI):
 class AAOSVehicle(Vehicle):
     def __init__(self, vin, api):
         super(AAOSVehicle, self).__init__(vin, api)
-        self.fuel_total = 0
 
     async def _parse_exterior(self):
         try:
@@ -276,14 +286,26 @@ class AAOSVehicle(Vehicle):
     async def unlock_window(self):
         await self._api.window_control(self.vin, AAOSWindowOpenType.Open)
 
-    async def lock_vehicle(self, vin):
-        await self._api.door_control(vin, AAOSDoorLockType.Lock)
+    async def lock_vehicle(self):
+        await self._api.door_control(self.vin, AAOSDoorLockType.Lock)
 
-    async def unlock_vehicle(self, vin):
-        await self._api.door_control(vin, AAOSDoorLockType.UnLock)
+    async def unlock_vehicle(self):
+        await self._api.door_control(self.vin, AAOSDoorLockType.UnLock)
 
-    async def flash(self, vin):
-        await self._api.honk_flash_control(vin, True)
+    async def flash(self):
+        await self._api.honk_flash_control(self.vin, True)
 
-    async def honk_and_flash(self, vin):
-        await self._api.honk_flash_control(vin, False)
+    async def honk_and_flash(self):
+        await self._api.honk_flash_control(self.vin, False)
+
+    async def engine_start(self):
+        await self._api.engine_control(self.vin, EngineStartType.Start)
+
+    async def engine_stop(self):
+        await self._api.engine_control(self.vin, EngineStartType.Stop)
+
+    async def set_engine_duration(self, durationMin):
+        self._api.engine_duration = durationMin
+
+    def get_engine_duration(self) -> float:
+        return self._api.engine_duration

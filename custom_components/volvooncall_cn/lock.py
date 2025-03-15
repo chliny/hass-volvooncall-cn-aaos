@@ -60,13 +60,13 @@ class VolvoSensor(VolvoEntity, LockEntity):
 
     async def async_lock(self, **kwargs: Any) -> None:
         """Lock the car."""
-        await self.coordinator.data[self.idx].lock()
+        await self.coordinator.data[self.idx].lock_vehicle()
         await self.coordinator.async_request_refresh()
 
     async def async_unlock(self, **kwargs: Any) -> None:
         """Unlock the car."""
         if not self.coordinator.data[self.idx].toMap()["car_locked"]:
-            await self.coordinator.data[self.idx].unlock()
+            await self.coordinator.data[self.idx].unlock_vehicle()
 
         await self.coordinator.async_request_refresh()
 

@@ -48,14 +48,14 @@ class windowControlResp(_message.Message):
     def __init__(self, data: _Optional[_Iterable[_Union[invocationData, _Mapping]]] = ...) -> None: ...
 
 class EngineStartReq(_message.Message):
-    __slots__ = ("head", "openType", "startDurationHour")
+    __slots__ = ("head", "openType", "startDurationMin")
     HEAD_FIELD_NUMBER: _ClassVar[int]
     OPENTYPE_FIELD_NUMBER: _ClassVar[int]
-    STARTDURATIONHOUR_FIELD_NUMBER: _ClassVar[int]
+    STARTDURATIONMIN_FIELD_NUMBER: _ClassVar[int]
     head: invocationHead
     openType: int
-    startDurationHour: int
-    def __init__(self, head: _Optional[_Union[invocationHead, _Mapping]] = ..., openType: _Optional[int] = ..., startDurationHour: _Optional[int] = ...) -> None: ...
+    startDurationMin: int
+    def __init__(self, head: _Optional[_Union[invocationHead, _Mapping]] = ..., openType: _Optional[int] = ..., startDurationMin: _Optional[int] = ...) -> None: ...
 
 class EngineStartResp(_message.Message):
     __slots__ = ("data",)

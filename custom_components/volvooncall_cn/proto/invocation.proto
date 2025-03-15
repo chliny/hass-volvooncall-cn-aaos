@@ -38,7 +38,7 @@ message windowControlResp {
 message EngineStartReq {
   invocationHead head = 1;
   int32 openType = 2;
-  int32 startDurationHour = 3;
+  int32 startDurationMin = 3;
 }
 
 message EngineStartResp {
