@@ -19,16 +19,16 @@ class AvailabilityDataHead(_message.Message):
     def __init__(self, updateTime: _Optional[int] = ..., unknown1: _Optional[int] = ...) -> None: ...
 
 class AvailabilityData(_message.Message):
-    __slots__ = ("head", "engineRunning", "unknown2", "unknown3")
+    __slots__ = ("head", "engineRunning", "unknown2", "engineRemoteRunning")
     HEAD_FIELD_NUMBER: _ClassVar[int]
     ENGINERUNNING_FIELD_NUMBER: _ClassVar[int]
     UNKNOWN2_FIELD_NUMBER: _ClassVar[int]
-    UNKNOWN3_FIELD_NUMBER: _ClassVar[int]
+    ENGINEREMOTERUNNING_FIELD_NUMBER: _ClassVar[int]
     head: AvailabilityDataHead
     engineRunning: int
     unknown2: int
-    unknown3: int
-    def __init__(self, head: _Optional[_Union[AvailabilityDataHead, _Mapping]] = ..., engineRunning: _Optional[int] = ..., unknown2: _Optional[int] = ..., unknown3: _Optional[int] = ...) -> None: ...
+    engineRemoteRunning: int
+    def __init__(self, head: _Optional[_Union[AvailabilityDataHead, _Mapping]] = ..., engineRunning: _Optional[int] = ..., unknown2: _Optional[int] = ..., engineRemoteRunning: _Optional[int] = ...) -> None: ...
 
 class GetAvailabilityResp(_message.Message):
     __slots__ = ("vin", "data", "unknown4")

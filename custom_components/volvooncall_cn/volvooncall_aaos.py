@@ -51,8 +51,13 @@ class AAOSDoorLockType(object):
 
 
 class EngineStartType(object):
+    Stop = 0
     Start = 1
-    Stop = 2
+
+
+class EngineRunStatus(object):
+    Stop = 1
+    Running = 2
 
 
 class AAOSVehicleAPI(VehicleAPI):
@@ -242,7 +247,8 @@ class AAOSVehicle(Vehicle):
         except Exception as err:
             _LOGGER.error(err)
             return
-        self.engine_running = availability_data.engineRunning == 2
+        self.engine_running = availability_data.engineRunning == EngineRunStatus.Running
+        self.engine_remote_running = availability_data.engineRemoteRunning == EngineRunStatus.Running
 
     async def _parse_location(self):
         try:

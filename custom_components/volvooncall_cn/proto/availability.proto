@@ -19,7 +19,7 @@ message AvailabilityData {
   AvailabilityDataHead head = 1;
   int32 engineRunning = 3;
   int32 unknown2 = 4;
-  int32 unknown3 = 5;
+  int32 engineRemoteRunning = 5;
 }
 
 message GetAvailabilityResp {

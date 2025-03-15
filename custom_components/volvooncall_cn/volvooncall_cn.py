@@ -277,6 +277,7 @@ class Vehicle:
         self.hood_open = False
         self.sunroof_open = False
         self.engine_running = False
+        self.engine_remote_running = False
         self.odo_meter = 0
         self.front_left_window_open = False
         self.front_right_window_open = False
@@ -312,6 +313,7 @@ class Vehicle:
             "hood_open": self.hood_open,
             "sunroof_open": self.sunroof_open,
             "engine_running": self.engine_running,
+            "engine_remote_running": self.engine_remote_running,
             "odo_meter": self.odo_meter,
             "front_left_window_open": self.front_left_window_open,
             "front_right_window_open": self.front_right_window_open,
