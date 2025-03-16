@@ -1,3 +1,4 @@
+import asyncio
 from __future__ import annotations
 from homeassistant.components.lock import (
     LockEntity,
@@ -97,6 +98,7 @@ class VolvoWindowSensor(VolvoEntity, LockEntity):
         if data_map["engine_running"]:
             raise Exception("Engine running!  Prohibited to lock windows")
         await self.coordinator.data[self.idx].lock_window()
+        await asyncio.sleep(2)
         await self.coordinator.async_request_refresh()
 
     async def async_unlock(self, **kwargs: Any) -> None:
@@ -104,4 +106,5 @@ class VolvoWindowSensor(VolvoEntity, LockEntity):
         if data_map["engine_running"]:
             raise Exception("Engine running!  Prohibited to unlock windows")
         await self.coordinator.data[self.idx].unlock_window()
+        await asyncio.sleep(2)
         await self.coordinator.async_request_refresh()

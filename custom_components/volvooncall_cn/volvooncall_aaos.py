@@ -170,7 +170,7 @@ class AAOSVehicleAPI(VehicleAPI):
     async def door_lock(self, vin) -> bool:
         stub = InvocationServiceStub(self.channel)
         req_header = invocationHead(vin=vin)
-        req = LockReq(head=req_header, lockType=2)
+        req = LockReq(head=req_header, lockType=1)
         metadata: list = [("vin", vin)]
         res: LockResp = LockResp()
         for res in stub.Lock(req, metadata=metadata, timeout=TIMEOUT.seconds):
