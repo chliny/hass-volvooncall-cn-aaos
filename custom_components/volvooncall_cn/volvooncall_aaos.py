@@ -30,7 +30,7 @@ AAOS_LBS_VOLVO_HOST = "cepmobtoken.lbs.prod.c3.volvocars.com.cn:443"
 USER_AGENT = "vca-android/5.51.1 grpc-java-okhttp/1.68.0"
 MAX_RETRIES = 1
 TIMEOUT = datetime.timedelta(seconds=10)
-DOMAIN = "volvooncall_cn"
+DOMAIN = "volvooncall_cn_aaos"
 
 
 class AAOSWindowOpenType(object):
