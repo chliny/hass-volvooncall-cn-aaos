@@ -64,4 +64,4 @@ class VolvoSensor(VolvoEntity, BinarySensorEntity):
     @property
     def is_on(self) -> bool | None:
         """Handle updated data from the coordinator."""
-        return self.coordinator.data[self.idx].toMap()[self.metaMapKey]
+        return self.coordinator.data[self.idx].get(self.metaMapKey)

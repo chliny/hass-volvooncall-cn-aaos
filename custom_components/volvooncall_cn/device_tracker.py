@@ -46,9 +46,9 @@ class VolvoSensor(VolvoEntity, TrackerEntity):
     @property
     def latitude(self):
         """Handle updated data from the coordinator."""
-        return self.coordinator.data[self.idx].toMap()[self.metaMapKey]["latitude"]
+        return self.coordinator.data[self.idx].get(self.metaMapKey)["latitude"]
 
     @property
     def longitude(self):
         """Handle updated data from the coordinator."""
-        return self.coordinator.data[self.idx].toMap()[self.metaMapKey]["longitude"]
+        return self.coordinator.data[self.idx].get(self.metaMapKey)["longitude"]

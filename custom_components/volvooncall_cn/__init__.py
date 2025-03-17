@@ -16,8 +16,8 @@ from homeassistant.helpers.update_coordinator import (
     UpdateFailed,
 )
 
-from .volvooncall_aaos import AAOSVehicleAPI as VehicleAPI
-from .volvooncall_aaos import AAOSVehicle as Vehicle
+from .volvooncall_aaos import VehicleAPI
+from .volvooncall_aaos import Vehicle
 from .volvooncall_aaos import DOMAIN
 
 PLATFORMS = {

@@ -4,8 +4,8 @@ from homeassistant import config_entries
 from homeassistant.const import *
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 import voluptuous as vol
-from .volvooncall_cn import VolvoAPIError
-from .volvooncall_aaos import AAOSVehicleAPI as VehicleAPI
+from .volvooncall_base import VolvoAPIError
+from .volvooncall_aaos import VehicleAPI
 from .volvooncall_aaos import DOMAIN
 
 _LOGGER = logging.getLogger(__name__)

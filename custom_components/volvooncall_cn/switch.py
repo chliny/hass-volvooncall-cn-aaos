@@ -45,5 +45,5 @@ class VolvoEngineSwitch(VolvoEntity, SwitchEntity):
 
     @property
     def is_on(self):
-        data_map = self.coordinator.data[self.idx].toMap()
-        return data_map["engine_running"] or data_map["engine_remote_running"]
+        coordinator = self.coordinator.data[self.idx]
+        return coordinator.get("engine_running") or coordinator.get("engine_remote_running")

@@ -49,6 +49,6 @@ class VolvoSensor(VolvoEntity, SensorEntity):
     @callback
     def _handle_coordinator_update(self) -> None:
         """Handle updated data from the coordinator."""
-        self._attr_native_value = self.coordinator.data[self.idx].toMap()[self.metaMapKey]
+        self._attr_native_value = self.coordinator.data[self.idx].get(self.metaMapKey)
         self._attr_native_unit_of_measurement = metaMap[self.metaMapKey]["unit"]
         self.async_write_ha_state()

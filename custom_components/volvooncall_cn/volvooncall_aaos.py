@@ -3,7 +3,7 @@ import datetime
 import os
 import grpc
 import asyncio
-from .volvooncall_cn import VehicleAPI, Vehicle, gcj02towgs84
+from .volvooncall_base import VehicleBaseAPI, gcj02towgs84
 from .proto.exterior_pb2_grpc import ExteriorServiceStub
 from .proto.exterior_pb2 import GetExteriorReq, GetExteriorResp, ExteriorData
 from .proto.fuel_pb2_grpc import FuelServiceStub
@@ -47,9 +47,9 @@ class AAOSWindowOpenType(object):
         return openType == AAOSWindowOpenType.Close
 
 
-class AAOSVehicleAPI(VehicleAPI):
+class VehicleAPI(VehicleBaseAPI):
     def __init__(self, session, username, password):
-        super(AAOSVehicleAPI, self).__init__(session, username, password)
+        super(VehicleAPI, self).__init__(session, username, password)
         os.environ["GRPC_VERBOSITY"] = "debug"
         self.channel = None
         self.channel_token: str = ""
@@ -200,9 +200,39 @@ class AAOSVehicleAPI(VehicleAPI):
         return res
 
 
-class AAOSVehicle(Vehicle):
+class Vehicle(object):
     def __init__(self, vin, api):
-        super(AAOSVehicle, self).__init__(vin, api)
+        self.vin = vin
+        self._api = api
+
+        self.series_name = ""
+        self.model_name = ""
+        self.car_locked = False
+        self.distance_to_empty = 0  # 续航公里
+        self.tail_gate_open = False
+        self.rear_right_door_open = False
+        self.rear_left_door_open = False
+        self.front_right_door_open = False
+        self.front_left_door_open = False
+        self.hood_open = False
+        self.sunroof_open = False
+        self.engine_running = False
+        self.engine_remote_running = False
+        self.odo_meter = 0
+        self.front_left_window_open = False
+        self.front_right_window_open = False
+        self.rear_left_window_open = False
+        self.rear_right_window_open = False
+        self.fuel_amount = 0
+        # self.fuel_amount_level = 0
+        self.position = {
+            "longitude": 0.0,
+            "latitude": 0.0
+        }
+        self.position_wgs84 = {
+            "longitude": 0.0,
+            "latitude": 0.0
+        }
 
     async def _parse_exterior(self):
         try:
@@ -335,3 +365,8 @@ class AAOSVehicle(Vehicle):
 
     def get_engine_duration(self) -> float:
         return self._api.engine_duration
+
+    def get(self, key):
+        if not hasattr(self, key):
+            raise Exception(f"{key} not found")
+        return getattr(self, key)
