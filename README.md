@@ -2,8 +2,9 @@
 [![GitHub all releases](https://img.shields.io/github/downloads/chliny/hass-volvooncall-cn-aaos/total?label=Downloads)](https://github.com/chliny/hass-volvooncall-cn-aaos/releases)
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg)](https://github.com/hacs/integration)
 
+# 安卓车机兼容代码已合并至上游，请使用 [hass-volvooncall-cn](https://github.com/idreamshen/hass-volvooncall-cn)插件
 
-# Volvo On Call CN AAOS
+# Volvo On Call CN AAOS 
 Homeassistant volvooncall 中国区安卓车机版插件
 
 # 实体一览
